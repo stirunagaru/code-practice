@@ -25,21 +25,45 @@ public class MergeSort {
         }
         
         while(i < s1 ) arr[k++] = a[i++];
-        while(i < s2 ) arr[k++] = b[j++];
+        while(j < s2 ) arr[k++] = b[j++];
         
     }
+    
+    private void mergeArray(int[] nums, int low, int middle, int high) {
+        int lp = low;
+        int rp = middle+1;
+        
+        int[] buff = new int[high - low + 1];
+        int bp = 0;
+        
+        while(lp <= middle && rp <= high){
+            if(nums[lp] <= nums[rp]) buff[bp++] = nums[lp++];
+            else buff[bp++] = nums[rp++];
+        }
+        
+        //remaing elements
+        while(lp <= middle) buff[bp++] = nums[lp++];
+        while(rp <= high) buff[bp++] = nums[rp++];
+        
+        
+        for(int i = low; i <= high ; i++){
+            nums[i] = buff[i-low];
+        }
+    } 
     void mergeSort(int arr[], int l, int r)
     {
         if(l<r) {
             int m = (l+r)/2;
             mergeSort(arr, l, m);
             mergeSort(arr, m+1, r);
-            merge(arr, l, m, r);
+//            merge(arr, l, m, r); // not optimized
+
+            mergeArray(arr, l, m, r); 
         }
     }
     
 	public static void main(String[] args) {
-		int arr[] = {10, 7, 8, 9, 1, 5};
+		int arr[] = {5,2,3,1};
         int n = arr.length;
         
         System.out.println("Unsorted array");
